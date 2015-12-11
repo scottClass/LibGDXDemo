@@ -15,7 +15,6 @@ public class World {
     private Mario player;
     
     public World() {
-        
         blocks = new Array<Block>();
         demoLevel();
     }
