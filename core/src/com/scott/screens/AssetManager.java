@@ -32,6 +32,12 @@ public class AssetManager {
         
         Array<AtlasRegion> run = atlas.findRegions("run");
         marioRun = new Animation(0.1f, run);
+        
+        run = atlas.findRegions("run");
+        marioRunL = new Animation(0.1f, run);
+        for(TextureRegion r: marioRunL.getKeyFrames()) {
+            r.flip(true, false);
+        }
     }
     
 }

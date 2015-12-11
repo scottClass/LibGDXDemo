@@ -24,6 +24,7 @@ public class Mario extends Entity {
     //the actual state mario is in
     private State state;
     private Vector2 velocity;
+    private Vector2 acceleration;
     //facing
     private boolean isFacingLeft;
     
@@ -34,12 +35,19 @@ public class Mario extends Entity {
         super(x, y, width, height);
         state = State.STANDING;
         velocity = new Vector2(0, 0);
+        acceleration = new Vector2(0, 0);
         isFacingLeft = false;
         stateTime = 0;
     }
     
     public void update(float delta) {
-        
+        acceleration.y = -9.8f;
+        velocity.mulAdd(acceleration, delta);
+        velocity.x = velocity.x * DAMP;
+        if(velocity.x < 0.01f && velocity.x > -0.001f) {
+            velocity.x = 0;
+        }
+        addToPosition(velocity.x, 0);
     }
     
     public void jump() {

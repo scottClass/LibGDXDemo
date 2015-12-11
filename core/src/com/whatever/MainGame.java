@@ -42,6 +42,15 @@ public class MainGame implements Screen {
     @Override
     //Game loop
     public void render(float deltaTime) {
+        
+        if(Gdx.input.isKeyPressed(Keys.D)) {
+            player.setVelocityX(2f);
+        } else if (Gdx.input.isKeyPressed(Keys.A)) {
+            player.setVelocityX(-2f);
+        }
+        
+        player.update(deltaTime);
+        
         //draw the screen
         renderer.render(deltaTime);
     }
