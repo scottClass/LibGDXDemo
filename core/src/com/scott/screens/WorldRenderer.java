@@ -13,6 +13,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scott.model.Block;
 import com.scott.model.Mario;
+import com.scott.model.Mario.State;
+import static com.scott.model.Mario.State.JUMPING;
+import static com.scott.model.Mario.State.RUNNING;
+import static com.scott.model.Mario.State.STANDING;
 import com.scott.model.World;
 
 /**
@@ -30,6 +34,10 @@ public class WorldRenderer {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     
+    public boolean left;
+    
+    private float runtime;
+    
     public WorldRenderer(World w) {
         world = w;
         player = world.getPlayer();
@@ -41,6 +49,8 @@ public class WorldRenderer {
         camera.position.x = V_WIDTH/2f;
         //move the y position of the camera
         camera.position.y = V_HEIGHT/2f;
+        left = false;
+        runtime = 0;
         camera.update();
     }
     
@@ -60,8 +70,43 @@ public class WorldRenderer {
         for(Block b: world.getBlocks()) {
             batch.draw(AssetManager.block, b.getX(), b.getY());
         }
-        //draw mario
-        batch.draw(AssetManager.marioStand, player.getX(), player.getY());
+        
+        State s = player.getState();
+        if(s == RUNNING) {
+            if(!left) {
+                batch.draw(AssetManager.marioRun.getKeyFrame(runtime), player.getX(), player.getY());
+                runtime += deltaTime;
+                if(AssetManager.marioRun.isAnimationFinished(runtime)) {
+                    runtime = 0;
+                }
+            }
+            if(left) {
+                batch.draw(AssetManager.marioRunL.getKeyFrame(runtime), player.getX(), player.getY());
+                runtime += deltaTime;
+                if(AssetManager.marioRunL.isAnimationFinished(runtime)) {
+                    runtime = 0;
+                }
+            }
+        }
+        
+        if(s == STANDING) {
+            //draw mario
+            if(left) {
+                batch.draw(AssetManager.marioStandL, player.getX(), player.getY());
+            } else {
+                batch.draw(AssetManager.marioStand, player.getX(), player.getY());
+            }
+            runtime = 0;
+        }
+        
+        if(s == JUMPING) {
+            if(left) {
+                batch.draw(AssetManager.marioJumpL, player.getX(), player.getY());
+            } else {
+                batch.draw(AssetManager.marioJump, player.getX(), player.getY());
+            }
+            runtime = 0;
+        }
         
         batch.end();
         
@@ -69,5 +114,9 @@ public class WorldRenderer {
     
     public void resize (int width, int height) {
         viewport.update(width, height);
+    }
+    
+    public void setLeft(boolean thing) {
+        left = thing;
     }
 }

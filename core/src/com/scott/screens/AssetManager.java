@@ -20,6 +20,8 @@ public class AssetManager {
     public static TextureRegion block;
     public static TextureRegion marioStand;
     public static TextureRegion marioStandL;
+    public static TextureRegion marioJump;
+    public static TextureRegion marioJumpL;
     public static Animation marioRun;
     public static Animation marioRunL;
     
@@ -29,6 +31,9 @@ public class AssetManager {
         marioStand = atlas.findRegion("stand");
         marioStandL = new TextureRegion(marioStand);
         marioStandL.flip(true, false);
+        marioJump = atlas.findRegion("jump");
+        marioJumpL = new TextureRegion(marioJump);
+        marioJumpL.flip(true, false);
         
         Array<AtlasRegion> run = atlas.findRegions("run");
         marioRun = new Animation(0.1f, run);
