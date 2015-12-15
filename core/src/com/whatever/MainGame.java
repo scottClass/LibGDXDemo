@@ -45,6 +45,10 @@ public class MainGame implements Screen {
     //Game loop
     public void render(float deltaTime) {
         
+        if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A)) {
+            player.setState(Mario.State.STANDING);
+        }
+        
         if(Gdx.input.isKeyPressed(Keys.D)) {
             player.setVelocityX(2f);
             renderer.setLeft(false);
@@ -58,9 +62,7 @@ public class MainGame implements Screen {
         if(Gdx.input.isKeyPressed(Keys.SPACE)) {
             player.jump();
             player.setState(Mario.State.JUMPING);
-        } else if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A) && Gdx.input.isKeyPressed(Keys.SPACE)) {
-            player.setState(Mario.State.STANDING);
-        }
+        } 
         
         
         player.update(deltaTime);
@@ -77,7 +79,6 @@ public class MainGame implements Screen {
                     //player is above the block
                     if(player.getY() > b.getY()) {
                         player.addToPosition(0, overY);
-                        player.setState(Mario.State.STANDING);
                     } else {
                         player.addToPosition(0, -overY);
                     }
@@ -93,7 +94,6 @@ public class MainGame implements Screen {
                     } else {
                         if(player.getY() > b.getY()) {
                             player.addToPosition(0, overY);
-                            player.setState(Mario.State.STANDING);
                         } else {
                             player.addToPosition(0, -overY);
                         }

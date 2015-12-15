@@ -68,10 +68,7 @@ public class Mario extends Entity {
     }
     
     public void setState(State s) {
-        if(state != s) {
-            stateTime = 0;
-        }
-        state = s;
+        this.state = s;
     }
     
     public float getVelocityX() {
