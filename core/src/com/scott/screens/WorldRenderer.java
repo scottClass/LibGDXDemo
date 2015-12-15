@@ -59,6 +59,10 @@ public class WorldRenderer {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
+        if(player.getX() > V_WIDTH / 2) {
+            camera.position.x = player.getX();
+        }
+        
         camera.update();
         //links renderer to camera
         batch.setProjectionMatrix(camera.combined);
