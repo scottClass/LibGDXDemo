@@ -58,7 +58,7 @@ public class MainGame implements Screen {
         if(Gdx.input.isKeyPressed(Keys.SPACE)) {
             player.jump();
             player.setState(Mario.State.JUMPING);
-        } else if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A)) {
+        } else if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A) && Gdx.input.isKeyPressed(Keys.SPACE)) {
             player.setState(Mario.State.STANDING);
         }
         

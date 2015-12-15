@@ -49,13 +49,14 @@ public class Mario extends Entity {
         }
         addToPosition(velocity.x, 0);
         addToPosition(0, velocity.y);
+        
+        
     }
     
     public void jump() {
-        if(state != state.JUMPING && velocity.y == 0) {
             velocity.y = Y_MAX_VEL;
             state = state.JUMPING;
-        }
+        
     }
     
     public void setVelocityX(float x) {

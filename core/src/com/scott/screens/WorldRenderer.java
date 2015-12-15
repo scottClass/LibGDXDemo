@@ -75,6 +75,7 @@ public class WorldRenderer {
             batch.draw(AssetManager.block, b.getX(), b.getY());
         }
         
+        //draw animation frame
         State s = player.getState();
         if(s == RUNNING) {
             if(!left) {
