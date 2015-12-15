@@ -28,11 +28,15 @@ public class Mario extends Entity {
     //facing
     private boolean isFacingLeft;
     
+    private float x;
+    private float y;
     //animation state counter'
     private float stateTime;
     
     public Mario(float x, float y, float width, float height) {
         super(x, y, width, height);
+        this.x = x;
+        this.y = y;
         state = State.STANDING;
         velocity = new Vector2(0, 0);
         acceleration = new Vector2(0, 0);
@@ -54,8 +58,8 @@ public class Mario extends Entity {
     }
     
     public void jump() {
-            velocity.y = Y_MAX_VEL;
-            state = state.JUMPING;
+        velocity.y = Y_MAX_VEL;
+        state = state.JUMPING;
         
     }
     
