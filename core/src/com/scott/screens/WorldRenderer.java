@@ -96,7 +96,11 @@ public class WorldRenderer {
             }
             runtime = 0;
         } else if (s == JUMPING) {
-            batch.draw(AssetManager.marioJump, player.getX(), player.getY());
+            if(left) {
+                batch.draw(AssetManager.marioJumpL, player.getX(), player.getY());
+            } else {
+                batch.draw(AssetManager.marioJump, player.getX(), player.getY());
+            }
             runtime = 0;
         }
         

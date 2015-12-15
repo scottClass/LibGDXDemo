@@ -28,6 +28,8 @@ public class Mario extends Entity {
     //facing
     private boolean isFacingLeft;
     
+    private boolean onGround;
+    
     private float x;
     private float y;
     //animation state counter'
@@ -41,10 +43,14 @@ public class Mario extends Entity {
         velocity = new Vector2(0, 0);
         acceleration = new Vector2(0, 0);
         isFacingLeft = false;
+        onGround = true;
         stateTime = 0;
     }
     
     public void update(float delta) {
+        if(velocity.y == 0) {
+            onGround = true;
+        }
         acceleration.y = -9.8f;
         velocity.mulAdd(acceleration, delta);
         velocity.x = velocity.x * DAMP;
@@ -58,8 +64,11 @@ public class Mario extends Entity {
     }
     
     public void jump() {
-        velocity.y = Y_MAX_VEL;
-        state = state.JUMPING;
+        if(onGround) {
+            velocity.y = Y_MAX_VEL;
+            state = state.JUMPING;
+            onGround = false;
+        }
         
     }
     
