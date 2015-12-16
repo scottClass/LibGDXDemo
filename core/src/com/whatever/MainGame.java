@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.scott.model.Block;
 import com.scott.model.Mario;
 import com.scott.model.World;
 import com.scott.screens.WorldRenderer;
@@ -44,6 +45,10 @@ public class MainGame implements Screen {
     //Game loop
     public void render(float deltaTime) {
         
+        if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A)) {
+            player.setState(Mario.State.STANDING);
+        }
+        
         if(Gdx.input.isKeyPressed(Keys.D)) {
             player.setVelocityX(2f);
             renderer.setLeft(false);
@@ -55,13 +60,48 @@ public class MainGame implements Screen {
         }
         
         if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+            player.jump();
             player.setState(Mario.State.JUMPING);
-        } else if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A)) {
-            player.setState(Mario.State.STANDING);
-        }
+        } 
+        
         
         player.update(deltaTime);
-        
+        //collisions
+        //go through each block
+        for(Block b: theWorld.getBlocks()) {
+            //if player is hitting a block
+            if(player.isColliding(b)) {
+                float overX = player.getOverlapX(b);
+                float overY = player.getOverlapY(b);
+                
+                //just fixing y if not moving
+                if(player.getVelocityX() == 0) {
+                    //player is above the block
+                    if(player.getY() > b.getY()) {
+                        player.addToPosition(0, overY);
+                    } else {
+                        player.addToPosition(0, -overY);
+                    }
+                    player.setVelocityY(0);
+                } else {
+                    //fix the smallest overlap
+                    if(overX < overY) {
+                        if(player.getX() < b.getX()) {
+                            player.addToPosition(-overX, 0);
+                        } else {
+                            player.addToPosition(overX, 0);
+                        }
+                    } else {
+                        if(player.getY() > b.getY()) {
+                            player.addToPosition(0, overY);
+                        } else {
+                            player.addToPosition(0, -overY);
+                        }
+                        player.setVelocityY(0);
+                    }
+                }
+            }
+        }
         //draw the screen
         renderer.render(deltaTime);
     }

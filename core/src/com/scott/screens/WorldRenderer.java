@@ -59,7 +59,7 @@ public class WorldRenderer {
         Gdx.gl20.glClearColor(0, 0, 0, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        if(player.getX() > V_WIDTH/2) {
+        if(player.getX() > V_WIDTH / 2) {
             camera.position.x = player.getX();
         }
         
@@ -75,40 +75,28 @@ public class WorldRenderer {
             batch.draw(AssetManager.block, b.getX(), b.getY());
         }
         
+        //draw animation frame
         State s = player.getState();
-        if(s == RUNNING) {
+        
+        if (s == RUNNING) {
             if(!left) {
                 batch.draw(AssetManager.marioRun.getKeyFrame(runtime), player.getX(), player.getY());
-                runtime += deltaTime;
-                if(AssetManager.marioRun.isAnimationFinished(runtime)) {
-                    runtime = 0;
-                }
-            }
-            if(left) {
-                batch.draw(AssetManager.marioRunL.getKeyFrame(runtime), player.getX(), player.getY());
-                runtime += deltaTime;
-                if(AssetManager.marioRunL.isAnimationFinished(runtime)) {
-                    runtime = 0;
-                }
-            }
-        }
-        
-        if(s == STANDING) {
-            //draw mario
-            if(left) {
-                batch.draw(AssetManager.marioStandL, player.getX(), player.getY());
             } else {
+                batch.draw(AssetManager.marioRunL.getKeyFrame(runtime), player.getX(), player.getY());
+            }
+            runtime += deltaTime;
+            if(AssetManager.marioRun.isAnimationFinished(runtime) || AssetManager.marioRunL.isAnimationFinished(runtime)) {
+                runtime = 0;
+            }
+        } else if(s == STANDING) {
+            if(!left) {
                 batch.draw(AssetManager.marioStand, player.getX(), player.getY());
+            } else {
+                batch.draw(AssetManager.marioStandL, player.getX(), player.getY());
             }
             runtime = 0;
-        }
-        
-        if(s == JUMPING) {
-            if(left) {
-                batch.draw(AssetManager.marioJumpL, player.getX(), player.getY());
-            } else {
-                batch.draw(AssetManager.marioJump, player.getX(), player.getY());
-            }
+        } else if (s == JUMPING) {
+            batch.draw(AssetManager.marioJump, player.getX(), player.getY());
             runtime = 0;
         }
         
