@@ -60,10 +60,6 @@ public class MainGame implements Screen {
             player.setState(Mario.State.STANDING);
         }
         
-        if(player.getX() == 0) {
-            
-        }
-        
         player.update(deltaTime);
         
         //draw the screen
