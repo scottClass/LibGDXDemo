@@ -106,6 +106,8 @@ public class WorldRenderer {
         
         batch.end();
         
+        
+        
     }
     
     public void resize (int width, int height) {
