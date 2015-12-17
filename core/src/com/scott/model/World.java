@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 public class World {
     private Array <Block> blocks;
     private Mario player;
+    private Goomba goomba;
     
     public World() {
         blocks = new Array<Block>();
@@ -21,6 +22,7 @@ public class World {
     
     private void demoLevel() {
         player = new Mario(16, 16, 16, 32);
+        goomba = new Goomba(60, 16, player.getWidth(), player.getHeight());
         //blocks along the floor
         for(int i = 0; i < 50; i++) {
             Block b = new Block(i*16, 0, 16, 16);
@@ -39,6 +41,10 @@ public class World {
     
     public Mario getPlayer() {
         return player;
+    }
+    
+    public Goomba getGoomba() {
+        return goomba;
     }
     
     public Array<Block> getBlocks() {

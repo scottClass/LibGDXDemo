@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.scott.model.Block;
+import com.scott.model.Goomba;
 import com.scott.model.Mario;
 import com.scott.model.Mario.State;
 import static com.scott.model.Mario.State.JUMPING;
@@ -26,6 +27,7 @@ import com.scott.model.World;
 public class WorldRenderer {
     private World world;
     private Mario player;
+    private Goomba goomba;
     
     public final int V_WIDTH = 800;
     public final int V_HEIGHT = 600;
@@ -41,6 +43,7 @@ public class WorldRenderer {
     public WorldRenderer(World w) {
         world = w;
         player = world.getPlayer();
+        goomba = world.getGoomba();
         
         camera = new OrthographicCamera();
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, camera);
@@ -56,7 +59,7 @@ public class WorldRenderer {
     
     public void render(float deltaTime) {
         //clear the screen with black
-        Gdx.gl20.glClearColor(0, 0, 0, 1);
+        Gdx.gl20.glClearColor(0, 0, 0, 0);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         if(player.getX() > V_WIDTH / 2) {
@@ -74,7 +77,7 @@ public class WorldRenderer {
         for(Block b: world.getBlocks()) {
             batch.draw(AssetManager.block, b.getX(), b.getY());
         }
-        
+        batch.draw(AssetManager.goombaWalk, goomba.getX(), goomba.getY(), 25, 25);
         //draw animation frame
         State s = player.getState();
         

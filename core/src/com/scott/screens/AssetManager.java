@@ -4,6 +4,7 @@
  */
 package com.scott.screens;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -24,11 +25,13 @@ public class AssetManager {
     public static TextureRegion marioJumpL;
     public static Animation marioRun;
     public static Animation marioRunL;
+    public static Texture goombaWalk;
     
     public static void load() {
         atlas = new TextureAtlas("Mario.pack");
         block = atlas.findRegion("stoneBlock");
         marioStand = atlas.findRegion("stand");
+        goombaWalk = new Texture("goomba.png");
         marioStandL = new TextureRegion(marioStand);
         marioStandL.flip(true, false);
         marioJump = atlas.findRegion("jump");
