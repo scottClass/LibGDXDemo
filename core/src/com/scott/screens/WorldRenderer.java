@@ -36,11 +36,14 @@ public class WorldRenderer {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     
+    private float move;
+    
     public boolean left;
     
     private float runtime;
     
     public WorldRenderer(World w) {
+        move = 0;
         world = w;
         player = world.getPlayer();
         goomba = world.getGoomba();
@@ -78,6 +81,8 @@ public class WorldRenderer {
             batch.draw(AssetManager.block, b.getX(), b.getY());
         }
         batch.draw(AssetManager.goombaWalk, goomba.getX(), goomba.getY(), 25, 25);
+        goomba.setX(move);
+        move++;
         //draw animation frame
         State s = player.getState();
         

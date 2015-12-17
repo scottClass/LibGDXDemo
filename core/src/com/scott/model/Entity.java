@@ -54,4 +54,8 @@ public class Entity {
                 - Math.max(this.bounds.y, other.bounds.y);
         return overlap;
     }
+    
+    public void setX(float newX) {
+        bounds.x = newX;
+    }
 }
