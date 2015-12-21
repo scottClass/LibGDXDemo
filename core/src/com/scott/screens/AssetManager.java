@@ -31,7 +31,7 @@ public class AssetManager {
         atlas = new TextureAtlas("Mario.pack");
         block = atlas.findRegion("stoneBlock");
         marioStand = atlas.findRegion("stand");
-        goombaWalk = new Texture("goomba.png");
+        goombaWalk = new Texture("goomba.jpg");
         marioStandL = new TextureRegion(marioStand);
         marioStandL.flip(true, false);
         marioJump = atlas.findRegion("jump");
