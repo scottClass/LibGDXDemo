@@ -27,7 +27,6 @@ import com.scott.model.World;
 public class WorldRenderer {
     private World world;
     private Mario player;
-    private Goomba goomba;
     
     public final int V_WIDTH = 800;
     public final int V_HEIGHT = 600;
@@ -42,11 +41,13 @@ public class WorldRenderer {
     
     private float runtime;
     
+    public boolean slowDown;
+    
     public WorldRenderer(World w) {
+        slowDown = false;
         move = 0;
         world = w;
         player = world.getPlayer();
-        goomba = world.getGoomba();
         
         camera = new OrthographicCamera();
         viewport = new FitViewport(V_WIDTH, V_HEIGHT, camera);
@@ -80,17 +81,22 @@ public class WorldRenderer {
         for(Block b: world.getBlocks()) {
             batch.draw(AssetManager.block, b.getX(), b.getY());
         }
-        batch.draw(AssetManager.goombaWalk, goomba.getX(), goomba.getY(), 25, 25);
-        goomba.setX(move);
-        move++;
         //draw animation frame
         State s = player.getState();
         
         if (s == RUNNING) {
             if(!left) {
-                batch.draw(AssetManager.marioRun.getKeyFrame(runtime), player.getX(), player.getY());
+                if(slowDown) {
+                    batch.draw(AssetManager.marioRun.getKeyFrame(runtime/2), player.getX(), player.getY());
+                } else {
+                    batch.draw(AssetManager.marioRun.getKeyFrame(runtime), player.getX(), player.getY());
+                }
             } else {
-                batch.draw(AssetManager.marioRunL.getKeyFrame(runtime), player.getX(), player.getY());
+                if(slowDown) {
+                    batch.draw(AssetManager.marioRunL.getKeyFrame(runtime/2), player.getX(), player.getY());
+                } else {
+                    batch.draw(AssetManager.marioRunL.getKeyFrame(runtime), player.getX(), player.getY());
+                }
             }
             runtime += deltaTime;
             if(AssetManager.marioRun.isAnimationFinished(runtime) || AssetManager.marioRunL.isAnimationFinished(runtime)) {

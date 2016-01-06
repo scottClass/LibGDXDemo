@@ -25,73 +25,66 @@ import com.scott.screens.WorldRenderer;
  * @author johns6971
  */
 public class MainGame implements Screen {
+
     private World theWorld;
     private Mario player;
-    
+
     private WorldRenderer renderer;
-    
+
     public MainGame() {
         theWorld = new World();
         player = theWorld.getPlayer();
         renderer = new WorldRenderer(theWorld);
     }
-    
+
     @Override
     public void show() {
-        
+
     }
 
     @Override
     //Game loop
     public void render(float deltaTime) {
-        
-        if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A)) {
-            if(player.getVelocityY() == 0) {
-                player.setState(Mario.State.STANDING);
-            } else {
-                player.setState(Mario.State.JUMPING);
-            }
-        }
-        
-        if(Gdx.input.isKeyPressed(Keys.D)) {
+
+        if (Gdx.input.isKeyPressed(Keys.D)) {
             player.setVelocityX(2f);
             renderer.setLeft(false);
-            if(player.getVelocityY() == 0) {
-                player.setState(Mario.State.RUNNING);
-            } else {
-                player.setState(Mario.State.JUMPING);
-            }
+            renderer.slowDown = false;
         } else if (Gdx.input.isKeyPressed(Keys.A)) {
             player.setVelocityX(-2f);
             renderer.setLeft(true);
-            if(player.getVelocityY() == 0) {
-                player.setState(Mario.State.RUNNING);
-            } else {
-                player.setState(Mario.State.JUMPING);
-            }
+            renderer.slowDown = false;
         }
-        
-        if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+
+        if (Gdx.input.isKeyPressed(Keys.SPACE)) {
             player.jump();
-            player.setState(Mario.State.JUMPING);
-        } else if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A)) {
-            player.setState(Mario.State.STANDING);
         }
         
+        if(!Gdx.input.isKeyPressed(Keys.D) && !Gdx.input.isKeyPressed(Keys.A)) {
+            renderer.slowDown = true;
+        }
         
+        if(player.getVelocityY() == 0 && player.getVelocityX() == 0) {
+            player.setState(Mario.State.STANDING);
+        } else if(player.getVelocityY() !=0) {
+            player.setState(Mario.State.JUMPING);
+        } else {
+            player.setState(Mario.State.RUNNING);
+        }
+
         player.update(deltaTime);
         //collisions
         //go through each block
-        for(Block b: theWorld.getBlocks()) {
+        for (Block b : theWorld.getBlocks()) {
             //if player is hitting a block
-            if(player.isColliding(b)) {
+            if (player.isColliding(b)) {
                 float overX = player.getOverlapX(b);
                 float overY = player.getOverlapY(b);
-                
+
                 //just fixing y if not moving
-                if(player.getVelocityX() == 0) {
+                if (player.getVelocityX() == 0) {
                     //player is above the block
-                    if(player.getY() > b.getY()) {
+                    if (player.getY() > b.getY()) {
                         player.addToPosition(0, overY);
                     } else {
                         player.addToPosition(0, -overY);
@@ -99,14 +92,14 @@ public class MainGame implements Screen {
                     player.setVelocityY(0);
                 } else {
                     //fix the smallest overlap
-                    if(overX < overY) {
-                        if(player.getX() < b.getX()) {
+                    if (overX < overY) {
+                        if (player.getX() < b.getX()) {
                             player.addToPosition(-overX, 0);
                         } else {
                             player.addToPosition(overX, 0);
                         }
                     } else {
-                        if(player.getY() > b.getY()) {
+                        if (player.getY() > b.getY()) {
                             player.addToPosition(0, overY);
                         } else {
                             player.addToPosition(0, -overY);
@@ -123,27 +116,27 @@ public class MainGame implements Screen {
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
-        
+
     }
 
     @Override
     public void pause() {
-        
+
     }
 
     @Override
     public void resume() {
-        
+
     }
 
     @Override
     public void hide() {
-        
+
     }
 
     @Override
     public void dispose() {
-        
+
     }
-    
+
 }

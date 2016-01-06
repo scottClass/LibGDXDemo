@@ -25,13 +25,11 @@ public class AssetManager {
     public static TextureRegion marioJumpL;
     public static Animation marioRun;
     public static Animation marioRunL;
-    public static Texture goombaWalk;
     
     public static void load() {
         atlas = new TextureAtlas("Mario.pack");
         block = atlas.findRegion("stoneBlock");
         marioStand = atlas.findRegion("stand");
-        goombaWalk = new Texture("goomba.jpg");
         marioStandL = new TextureRegion(marioStand);
         marioStandL.flip(true, false);
         marioJump = atlas.findRegion("jump");
