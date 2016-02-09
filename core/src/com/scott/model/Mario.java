@@ -56,7 +56,6 @@ public class Mario extends Entity {
         if(velocity.y == 0) {
             velocity.y = Y_MAX_VEL;
         }
-        
     }
     
     public void setVelocityX(float x) {
